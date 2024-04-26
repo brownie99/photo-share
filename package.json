@@ -1,0 +1,21 @@
+{
+  "name": "photoshare",
+  "version": "1.0.0",
+  "description": "PhotoShare website and backend",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Scott Brown",
+  "license": "ISC",
+  "workspaces": [
+    "app"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.1.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "globals": "^15.0.0",
+    "prettier": "3.2.5",
+    "typescript-eslint": "^7.7.1"
+  }
+}
