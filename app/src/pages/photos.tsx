@@ -1,6 +1,8 @@
 import React, { Dispatch, useEffect, useState, SetStateAction } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import axios from "axios";
+import ProgressBar from "components/common/ProgressBar";
+import styled from "styled-components";
 
 async function login(pass: string) {
   const res = await fetch("http://192.168.1.44:3000/login", {
@@ -20,12 +22,19 @@ async function login(pass: string) {
   return null;
 }
 
+const ProgressContainer = styled.div`
+  width: 50%;
+  /* left: 50%; */
+  /* transform: translate(-50%, 0); */
+`;
+
 export default function Photos() {
   const { register, handleSubmit } = useForm();
   const [loggedIn, setLoggedIn] = useState(
     localStorage.getItem("authToken") !== null &&
       localStorage.getItem("authToken") !== "",
   );
+  const [progress, setProgress] = useState<number | undefined>(undefined);
   console.log(loggedIn);
   async function onSubmit(data: FieldValues) {
     const formData = new FormData();
@@ -41,6 +50,12 @@ export default function Photos() {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("authToken"),
         },
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent;
+          total !== undefined
+            ? setProgress(Math.floor((loaded * 100) / total))
+            : setProgress(undefined);
+        },
       })
       .then((res) => {
         return res;
@@ -55,7 +70,7 @@ export default function Photos() {
           return undefined;
         } else console.log(error);
       });
-    if (res !== undefined) alert(JSON.stringify(`${res}`));
+    if (res !== undefined) alert(JSON.stringify(`${res.data.message}`));
   }
 
   useEffect(() => {
@@ -85,6 +100,11 @@ export default function Photos() {
 
         <input type="submit" />
       </form>
+      {progress !== undefined ? (
+        <ProgressContainer>
+          <ProgressBar progress={progress} bgColor="#8742f5" />
+        </ProgressContainer>
+      ) : null}
     </>
   );
 }
