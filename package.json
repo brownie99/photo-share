@@ -20,8 +20,5 @@
     "globals": "^15.0.0",
     "prettier": "3.2.5",
     "typescript-eslint": "^7.7.1"
-  },
-  "dependencies": {
-    "react-photo-gallery": "^8.0.0"
   }
 }
